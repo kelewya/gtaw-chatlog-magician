@@ -560,8 +560,8 @@ $(document).ready(function() {
             }
         }
 
-        if (line.startsWith("[ИНФО]:") && line.includes("[") && line.includes("/")) {
-            const match = line.match(/^(\[ИНФО\]:)\s*(\[\d{2}\/[A-Z]{3}\/\d{4}\])\s*(.+)$/u);
+        if (line.startsWith("[ИНФО]") && line.includes("[") && line.includes("/")) {
+            const match = line.match(/^(\[ИНФО\])\s*(\[\d{2}\/[A-Z]{3}\/\d{4}\])\s*(.+)$/u);
             if (match) {
                 const [_, info, date, message] = match;
                 return wrapSpan("blue", info) + " " + wrapSpan("orange", date) + " " + wrapSpan("white", message);
@@ -626,7 +626,7 @@ $(document).ready(function() {
                     return wrapSpan("lightgrey", line);
                 }
 
-                const saysIndex = lowerLine.indexOf("says");
+                const saysIndex = lowerLine.indexOf("говорит");
                 const nameBeforeSays = lowerLine.substring(0, saysIndex);
                 if (nameBeforeSays.includes(currentCharacterName.toLowerCase())) {
                     return wrapSpan("lightgrey", line);
@@ -634,7 +634,7 @@ $(document).ready(function() {
                 return wrapSpan("grey", line);
             }
 
-        if (line.includes("says [low] (phone):") || line.includes("says (phone):")) {
+        if (line.includes("говорит [тихо] (телефон):") || line.includes("говорит (телефон):")) {
             if (currentCharacterName && line.toLowerCase().includes(currentCharacterName.toLowerCase())) {
                 return wrapSpan("white", line);
             } else {
@@ -646,40 +646,40 @@ $(document).ready(function() {
             return wrapSpan("blue", line);
         }
 
-        if (lowerLine.includes("says:") && !lowerLine.includes("[low]") && !lowerLine.includes("[lower]") && !lowerLine.includes("whispers") && !lowerLine.includes("(phone)") && !lowerLine.includes("(loudspeaker)")) {
+        if (lowerLine.includes("говорит:") && !lowerLine.includes("[тихо]") && !lowerLine.includes("[lower]") && !lowerLine.includes("шепчет") && !lowerLine.includes("(телефон)") && !lowerLine.includes("(громкая связь)")) {
             return formatSaysLine(line, currentCharacterName);
         }
 
         // Check for shouts before other conditions
-        if (lowerLine.includes("shouts:") || lowerLine.includes("shouts (to")) {
+        if (lowerLine.includes("кричит:") || lowerLine.includes("кричит (к")) {
             return wrapSpan("white", line);
         }
 
         // Handle panic alarm messages
-        const panicAlarmPattern = /^\[(LSSD|LSPD|PHMC|SADCR) PANIC ALARM\] (.+) activated their panic alarm at (.+)$/i;
+        const panicAlarmPattern = /^\[(LSSD|LSPD|PHMC|SADCR) КНОПКА ПАНИКИ\] (.+) активировал кнопку паники на (.+)$/i;
         const panicMatch = line.match(panicAlarmPattern);
         if (panicMatch) {
             const [_, department, officer, location] = panicMatch;
-            return wrapSpan("blue", `[${department} PANIC ALARM]`) + 
-                   wrapSpan("white", ` ${officer} activated their panic alarm at`) + 
+            return wrapSpan("blue", `[${department} КНОПКА ПАНИКИ]`) + 
+                   wrapSpan("white", ` ${officer} активировал кнопку паники на`) + 
                    wrapSpan("blue", ` ${location}`);
         }
 
-        if (line.startsWith("you were frisked by")) {
+        if (line.startsWith("вас обыскал")) {
             return wrapSpan("green", line);
         }
 
-        if (lowerLine.startsWith("you've used")) {
+        if (lowerLine.startsWith("вы использовали")) {
             return wrapSpan("green", line);
         }
 
-        if (line.match(/^___Description of .+___$/)) {
+        if (line.match(/^___Описание персонажа .+___$/u)) {
             return wrapSpan("blue", line);
         }
 
-        if (line.startsWith("Age range:")) {
-            const parts = line.split("Age range:");
-            return wrapSpan("blue", "Age range:") + wrapSpan("white", parts[1]);
+        if (line.startsWith("Примерный возраст:")) {
+            const parts = line.split("Примерный возраст:");
+            return wrapSpan("blue", "Примерный возраст:") + wrapSpan("white", parts[1]);
         }
 
         if (line.startsWith("->")) {
@@ -687,12 +687,12 @@ $(document).ready(function() {
             return wrapSpan("blue", "->") + wrapSpan("white", parts[1]);
         }
 
-        if (line.startsWith("[INFO]")) {
-            const parts = line.split("[INFO]");
-            return wrapSpan("blue", "[INFO]") + wrapSpan("white", parts[1]);
+        if (line.startsWith("[ИНФО]")) {
+            const parts = line.split("[ИНФО]");
+            return wrapSpan("blue", "[ИНФО]") + wrapSpan("white", parts[1]);
         }
 
-        if (line.match(/^___Tattoos description of .+___$/)) {
+        if (line.match(/^___Описание татуировок .+___$/u)) {
             return wrapSpan("blue", line);
         }
 
@@ -701,7 +701,7 @@ $(document).ready(function() {
             return wrapSpan("green", "[CASHTAP]") + wrapSpan("white", parts[1]);
         }
 
-        if (line.match(/\|------ .+'s Items \d{2}\/[A-Z]{3}\/\d{4} - \d{2}:\d{2}:\d{2} ------\|/)) {
+        if (line.match(/Предметы \|------ .+ \d{2}\/[A-Z]{3}\/\d{4} - \d{2}:\d{2}:\d{2} ------\|/u)) {
             return wrapSpan("green", line);
         }
 
@@ -715,8 +715,8 @@ $(document).ready(function() {
                 }
             }
 
-            if (line.includes("Money ($")) {
-                const moneyMatch = line.match(/^(\d+: Money \()(\$\d+(?:,\d{3})*)(\) \(\d+g\))$/);
+            if (line.includes("Деньги ($")) {
+                const moneyMatch = line.match(/^(\d+: Деньги \()(\$\d+(?:,\d{3})*)(\) \(\d+g\))$/u);
                 if (moneyMatch) {
                     const [_, prefix, amount, suffix] = moneyMatch;
                     return wrapSpan("yellow", prefix) + wrapSpan("green", amount) + wrapSpan("yellow", suffix);
@@ -725,19 +725,19 @@ $(document).ready(function() {
             return wrapSpan("yellow", line);
         }
 
-        if (lowerLine.startsWith("total weight:")) {
+        if (lowerLine.startsWith("общий вес:")) {
             return wrapSpan("yellow", line);
         }
 
-        if (lowerLine.startsWith("money on hand:")) {
+        if (lowerLine.startsWith("наличных денег:")) {
             return wrapSpan("green", line);
         }
 
-        if (lowerLine.includes("left in jail")) {
+        if (lowerLine.includes("осталось в тюрьме")) {
             return formatJailTime(line);
         }
 
-        const corpseDamagePattern = /^(.+?) \((ID)\) damages:/;
+        const corpseDamagePattern = /^(.+?) \((ID)\) повреждения:/;
         const corpseDamageMatch = line.match(corpseDamagePattern);
         if (corpseDamageMatch) {
             const namePart = corpseDamageMatch[1];
@@ -745,14 +745,14 @@ $(document).ready(function() {
             return `<span class="blue">${namePart}</span><span class="white">${restOfLine}</span>`;
         }
 
-        const youBeenShotPattern = /You've been shot in the (.+?) with a (.+?) for (\d+) damage\. \(\(Health : (\d+)\)\)/;
+        const youBeenShotPattern = /Вы были ранены выстрелом в (.+?) с (.+?) for (\d+) на\. \(\(ХП : (\d+)\)\)/;
         const youBeenShotMatch = line.match(youBeenShotPattern);
         if (youBeenShotMatch) {
             const [_, text, text2, numbers, numbers2] = youBeenShotMatch;
-            return `<span class="death">You've been shot</span> <span class="white"> in the </span> <span class="death">${text}</span> <span class="white"> with a </span> <span class="death">${text2}</span> <span class="white"> for </span> <span class="death">${numbers}</span> <span class="white"> damage. ((Health : </span> <span class="death">${numbers2}</span> <span class="white">))</span>`;
+            return `<span class="death">Вы были ранены выстрелом</span> <span class="white"> в </span> <span class="death">${text}</span> <span class="white"> с </span> <span class="death">${text2}</span> <span class="white"> на </span> <span class="death">${numbers}</span> <span class="white"> damage. ((ХП : </span> <span class="death">${numbers2}</span> <span class="white">))</span>`;
         }
 
-        if (line === "********** EMERGENCY CALL **********") {
+        if (line === "********** ЭКСТРЕННЫЙ ВЫЗОВ **********") {
             return '<span class="blue">' + line + '</span>';
         }
 
@@ -774,15 +774,15 @@ $(document).ready(function() {
             return wrapSpan('yellow', line);
         }
 
-        if (lowerLine === 'you have hung up the call.') {
-            return wrapSpan('white', line);
+        if (lowerLine === 'звонок окончен.') {
+            return wrapSpan('yellow', line);
         }
 
-        if (lowerLine === 'the other party has declined the call.') {
-            return wrapSpan('white', line);
+        if (lowerLine === 'звонок окончен.') {
+            return wrapSpan('yellow', line);
         }
 
-        if (lowerLine.startsWith("[info]")) return colorInfoLine(line);
+        if (lowerLine.startsWith("[инфо]")) return colorInfoLine(line);
 
         if (lowerLine.includes("[ch: vts - vessel traffic service]")) return formatVesselTraffic(line);
 
@@ -792,21 +792,21 @@ $(document).ready(function() {
 
         if (line.startsWith(">")) return wrapSpan("ame", line);
 
-        if (lowerLine.includes("(phone) *")) return wrapSpan("me", line);
+        if (lowerLine.includes("(телефон) *")) return wrapSpan("me", line);
 
-        if (lowerLine.includes("whispers") || line.startsWith("(Car)")) {
+        if (lowerLine.includes("шепчет") || line.startsWith("(Транспорт)")) {
             return handleWhispers(line);
         }        
 
-        if (lowerLine.includes("says (phone):") || lowerLine.includes("says (loudspeaker):")) {
+        if (lowerLine.includes("говорит (телефон):") || lowerLine.includes("говорит (громкая связь):")) {
             return handleCellphone(line);
         }
 
         if (/\[[^\]]+ -> [^\]]+\]/.test(line)) return wrapSpan("depColor", line);
 
-        if (lowerLine.includes("[megaphone]:")) return wrapSpan("yellow", line);
+        if (lowerLine.includes("[мегафон]:")) return wrapSpan("yellow", line);
 
-        if (line.includes("[Microphone]:")) {
+        if (line.includes("[Микрофон]:")) {
             return wrapSpan("yellow", line);
         }
 
@@ -828,14 +828,14 @@ $(document).ready(function() {
             }
         }
 
-        if (lowerLine.startsWith("info:")) {
-            if (line.includes("card reader") || line.includes("card payment") || line.includes("swiped your card")) {
+        if (lowerLine.startsWith("инфо")) {
+            if (line.includes("провести картой") || line.includes("card payment") || line.includes("провели своей карточкой")) {
                 return formatCardReader(line);
             }
             return formatInfo(line);
         }
 
-        if (lowerLine.includes("you have received $")) return colorMoneyLine(line);
+        if (lowerLine.includes("вы получили $")) return colorMoneyLine(line);
 
         if (lowerLine.includes("[drug lab]")) return formatDrugLab();
 
@@ -843,40 +843,40 @@ $(document).ready(function() {
 
         if (/\[.*? intercom\]/i.test(lowerLine)) return formatIntercom(line);
 
-        if (lowerLine.startsWith("you placed")) return wrapSpan("orange", line);
+        if (lowerLine.startsWith("вы положили")) return wrapSpan("orange", line);
 
-        if (/^you took.*from the property\.$/i.test(line))
+        if (/^вы взяли.*из собственности\.$/u.test(line))
             return wrapSpan("death", line);
 
-        if (lowerLine.startsWith("you took")) return wrapSpan("orange", line);
+        if (lowerLine.startsWith("вы взяли")) return wrapSpan("orange", line);
 
-        if (lowerLine.includes("from the property")) return wrapSpan("death", line);
+        if (lowerLine.includes("из собственности")) return wrapSpan("death", line);
 
-        if (lowerLine.startsWith("you dropped")) return wrapSpan("death", line);
+        if (lowerLine.startsWith("вы выбросили")) return wrapSpan("death", line);
 
-        if (lowerLine.startsWith("use /phonecursor")) return formatPhoneCursor(line);
+        if (lowerLine.startsWith("используйте /phonecursor")) return formatPhoneCursor(line);
 
-        if (lowerLine.includes("has shown you their")) return formatShown(line);
+        if (lowerLine.includes("показал вам свой")) return formatShown(line);
 
-        if (lowerLine.includes("you have successfully sent your current location")) 
+        if (lowerLine.includes("вы успешно отправили ваши текущие координаты")) 
             return wrapSpan("green", line);
 
-        if (lowerLine.includes("you received a location from"))
+        if (lowerLine.includes("вы получили координаты от"))
             return colorLocationLine(line);
 
-        if (lowerLine.includes("you gave") ||
-            lowerLine.includes("paid you") ||
-            lowerLine.includes("you paid") ||
-            lowerLine.includes("you received"))
+        if (lowerLine.includes("вы передали") ||
+            lowerLine.includes("оплатил вам") ||
+            lowerLine.includes("вы оплатили") ||
+            lowerLine.includes("вы получили"))
             return handleTransaction(line);
 
         if (lowerLine.includes("you are now masked")) return wrapSpan("green", line);
 
-        if (lowerLine.includes("you have shown your inventory")) return wrapSpan("green", line);
+        if (lowerLine.includes("показал вам свой инвентарь")) return wrapSpan("green", line);
 
-        if (lowerLine.includes("you are not masked anymore")) return wrapSpan("death", line);
+        if (lowerLine.includes("вы больше не в маске")) return wrapSpan("death", line);
 
-        if (lowerLine.includes("you're being robbed, use /arob")) return formatRobbery(line);
+        if (lowerLine.includes("когда вас грабят, используйте /arob")) return formatRobbery(line);
 
         if (line.includes("You have received an invitation to join the")) {
             const parts = line.split("join the ");
@@ -894,7 +894,7 @@ $(document).ready(function() {
 
         if (lowerLine.includes("[property robbery]")) return formatPropertyRobbery(line);
 
-        if (/You've just taken .+?! You will feel the effects of the drug soon\./.test(line)) {
+        if (/Вы приняли .+?! Вы почувствуете эффект наркотика уже скоро\./u.test(line)) {
             return formatDrugEffect(line);
         }
 
@@ -902,18 +902,18 @@ $(document).ready(function() {
             return formatCashTap(line);
         }
 
-        if (lowerLine.includes("(goods)") || line.match(/(.+?)\s+x(\d+)\s+\((\d+g)\)/)) 
+        if (lowerLine.includes("(товары)") || line.match(/(.+?)\s+x(\d+)\s+\((\d+g)\)/)) 
             return handleGoods(line);
 
-        if (lowerLine.includes("says:") && !lowerLine.includes("[low]") && !lowerLine.includes("[lower]") && !lowerLine.includes("whispers") && !lowerLine.includes("(phone)") && !lowerLine.includes("(loudspeaker)")) {
+        if (lowerLine.includes("говорит:") && !lowerLine.includes("[тихо]") && !lowerLine.includes("[lower]") && !lowerLine.includes("шепчет") && !lowerLine.includes("(телефон)") && !lowerLine.includes("(громкая связь)")) {
             return formatSaysLine(line, currentCharacterName);
         }
 
-        if (/^\*\* \[PRISON PA\].*\*\*$/.test(line)) {
+        if (/^\*\* \[ТЮРЕМНОЕ ОПОВЕЩЕНИЕ\].*\*\*$/u.test(line)) {
             return formatPrisonPA(line);
         }
 
-        const emergencyCallPattern = /^(Log Number|Phone Number|Location|Situation):\s*(.*)$/;
+        const emergencyCallPattern = /^(Номер журнала|Номер телефона|Местоположение|Ситуация):\s*(.*)$/;
         const emergencyMatch = line.match(emergencyCallPattern);
         if (emergencyMatch) {
             const key = emergencyMatch[1];
@@ -951,17 +951,17 @@ $(document).ready(function() {
     function formatLine(line) {
         const lowerLine = line.toLowerCase();
 
-        if (line.includes("Equipped Weapons")) {
+        if (line.includes("Экипированное оружие")) {
             return wrapSpan("green", line);
         }
 
 
 
-        if (lowerLine.includes("was seized by")) {
+        if (lowerLine.includes("изъят")) {
             return wrapSpan("death", line);
         }
 
-        if (line.match(/\|------ .+'s Items \d{2}\/[A-Z]{3}\/\d{4} - \d{2}:\d{2}:\d{2} ------\|/)) {
+        if (line.match(/Предметы \|------ .+' \d{2}\/[A-Z]{3}\/\d{4} - \d{2}:\d{2}:\d{2} ------\|/u)) {
             return wrapSpan("green", line);
         }
 
@@ -976,8 +976,8 @@ $(document).ready(function() {
                 }
             }
 
-            if (line.includes("Money ($")) {
-                const moneyMatch = line.match(/^(\d+: Money \()(\$\d+(?:,\d{3})*)(\) \(\d+g\))$/);
+            if (line.includes("Деньги ($")) {
+                const moneyMatch = line.match(/^(\d+: Деньги \()(\$\d+(?:,\d{3})*)(\) \(\d+g\))$/u);
                 if (moneyMatch) {
                     const [_, prefix, amount, suffix] = moneyMatch;
                     return wrapSpan("yellow", prefix) + wrapSpan("green", amount) + wrapSpan("yellow", suffix);
@@ -990,7 +990,7 @@ $(document).ready(function() {
     }
 
     function formatJailTime(line) {
-        const pattern = /(You have) (.*?) (left in jail\.)/;
+        const pattern = /(Вам осталось) (.*?) (в тюрьме\.)/;
         const match = line.match(pattern);
         if (match) {
             return `<span class="white">${match[1]}</span> <span class="green">${match[2]}</span> <span class="white">${match[3]}</span>`;
@@ -1073,18 +1073,18 @@ $(document).ready(function() {
     }
 
     function formatWeatherLine(line) {
-        const weatherPattern = /^Temperature:\s*([\d.]+°C)\s*\(([\d.]+°?F)\),\s*it\s*is\s*currently\s*([^.]+)\.\s*Wind:\s*([\d.]+)\s*km\/h\s*\(([\d.]+)\s*mph\),\s*humidity:\s*([\d.]+%),\s*rain\s*precipitation:\s*([\d.]+)\s*mm\.\s*Current\s*time:\s*([\d\/A-Z\s-]+:\d{2}:\d{2}:\d{2})$/;
+        const weatherPattern = /^температура:\s*([\d.]+°C)\s*\(([\d.]+°?F)\),\s*it\s*is\s*currently\s*([^.]+)\.\s*Wind:\s*([\d.]+)\s*km\/h\s*\(([\d.]+)\s*mph\),\s*humidity:\s*([\d.]+%),\s*rain\s*precipitation:\s*([\d.]+)\s*mm\.\s*Current\s*time:\s*([\d\/A-Z\s-]+:\d{2}:\d{2}:\d{2})$/;
         
         const match = line.match(weatherPattern);
         if (match) {
             const [_, tempC, tempF, condition, windKmh, windMph, humidity, rain, time] = match;
             
-            return wrapSpan("white", "Temperature: ") + 
+            return wrapSpan("white", "температура: ") + 
                    wrapSpan("green", tempC) + " " + 
                    wrapSpan("white", "(") + 
                    wrapSpan("green", tempF) + 
                    wrapSpan("white", ")") + 
-                   wrapSpan("white", ", it is currently ") + 
+                   wrapSpan("white", ", сейчас ") + 
                    wrapSpan("green", condition) + 
                    wrapSpan("white", ". Wind: ") + 
                    wrapSpan("green", windKmh + " km/h") + 
@@ -1100,20 +1100,20 @@ $(document).ready(function() {
                    wrapSpan("white", time);
         }
         
-        if (line.startsWith("Temperature:")) {
-            const tempMatch = line.match(/^Temperature:\s*([\d.]+°C)\s*\(([\d.]+°?F)\),\s*it\s*is\s*currently\s*([^.]+)\.?$/);
+        if (line.startsWith("Температура:")) {
+            const tempMatch = line.match(/^Температура:\s*([\d.]+°C)\s*\(([\d.]+°?F)\),\s*it\s*is\s*currently\s*([^.]+)\.?$/u);
             if (tempMatch) {
                 const [_, tempC, tempF, condition] = tempMatch;
-                return wrapSpan("white", "Temperature: ") + 
+                return wrapSpan("white", "Температура: ") + 
                        wrapSpan("green", tempC) + " " + 
                        wrapSpan("white", "(") + 
                        wrapSpan("green", tempF) + 
                        wrapSpan("white", ")") + 
-                       wrapSpan("white", ", it is currently ") + 
+                       wrapSpan("white", ", сейчас ") + 
                        wrapSpan("green", condition) + ".";
             }
-            return wrapSpan("white", "Temperature: ") + 
-                   wrapSpan("green", line.replace("Temperature:", "").trim());
+            return wrapSpan("white", "Температура: ") + 
+                   wrapSpan("green", line.replace("Температура:", "").trim());
         }
         
         if (line.startsWith("Wind:")) {
@@ -1135,9 +1135,9 @@ $(document).ready(function() {
                    wrapSpan("green", line.replace("Wind:", "").trim());
         }
         
-        if (line.startsWith("Current time:")) {
-            return wrapSpan("white", "Current time: ") + 
-                   wrapSpan("white", line.replace("Current time:", "").trim());
+        if (line.startsWith("Текущее время:")) {
+            return wrapSpan("white", "Текущее время: ") + 
+                   wrapSpan("white", line.replace("Текущее время:", "").trim());
         }
         
         return null;
@@ -1178,7 +1178,7 @@ $(document).ready(function() {
     function handleTransaction(line) {
 
         if (line.includes("/")) {
-            line = line.replace(/\s*\(\d{2}\/[A-Z]{3}\/\d{4}\s+-\s+\d{2}:\d{2}:\d{2}\)\.?/, "");
+            line = line.replace(/\s*\(\d{2}\/[A-Z]{3}\/\d{4}\s+-\s+\d{2}:\d{2}:\d{2}\)\.?/u, "");
             return wrapSpan("green", line + ".");
         }
 
@@ -1209,7 +1209,7 @@ $(document).ready(function() {
 
     function formatSmsMessage(line) {
         // Match the pattern: (phone) Message from sender: content
-        const match = line.match(/^\(([^)]+)\)\s+Message from ([^:]+):\s*(.+)$/);
+        const match = line.match(/^\(([^)]+)\)\s+Сообщение от ([^:]+):\s*(.+)$/u);
         
         if (match) {
             const phone = match[1];
@@ -1219,7 +1219,7 @@ $(document).ready(function() {
             // Remove brackets only from the phone identifier, preserve them in the message
             const cleanPhone = phone.replace(/[\[\]]/g, '');
             
-            return wrapSpan('yellow', `(${cleanPhone}) Message from ${sender}: ${message}`);
+            return wrapSpan('yellow', `(${cleanPhone}) Сообщение от ${sender}: ${message}`);
         }
         
         // Fallback: if pattern doesn't match, just remove brackets from the whole line
@@ -1229,12 +1229,12 @@ $(document).ready(function() {
 
     function formatPhoneSet(line) {
 
-        line = line.replace(/\[(?!INFO\])|\](?!)/g, '');
+        line = line.replace(/\[(?!ИНФО\])|\](?!)/g, '');
 
-        line = line.replace('[INFO]', '<span class="green">[INFO]</span>');
+        line = line.replace('[ИНФО]', '<span class="green">[ИНФО]</span>');
 
-        const infoTag = '<span class="green">[INFO]</span>';
-        const restOfLine = line.replace(/\[INFO\]/, '').trim();
+        const infoTag = '<span class="green">[ИНФО]</span>';
+        const restOfLine = line.replace(/\[ИНФО\]/, '').trim();
         return infoTag + ' <span class="white">' + restOfLine + '</span>';
     }
 
@@ -1242,7 +1242,7 @@ $(document).ready(function() {
 
         line = line.replace(/[\[\]]/g, '');
 
-        const match = line.match(/\(([^)]+)\) Incoming call from (.+)\. Use (.+) to answer or (.+) to decline\./);
+        const match = line.match(/\(([^)]+)\) Исходящий звонок от (.+)\. Use (.+) to answer or (.+) to decline\./);
         if (match) {
             const parenthetical = match[1];
             const caller = match[2];
@@ -1257,8 +1257,8 @@ $(document).ready(function() {
 
     function colorInfoLine(line) {
 
-        line = line.replace(/\[(?!INFO\])|(?<!INFO)\]/g, '');
-        line = line.replace('[INFO]', '<span class="blue">[INFO]</span>');
+        line = line.replace(/\[(?!ИНФО\])|(?<!ИНФО)\]/g, '');
+        line = line.replace('[ИНФО]', '<span class="blue">[INFO]</span>');
 
         if (line.includes('You have received a contact')) {
             if (line.includes('/acceptnumber')) {
@@ -1352,8 +1352,8 @@ $(document).ready(function() {
 
     function formatIntercom(line) {
         return line.replace(
-            /\[(.*?) intercom\]: (.*)/i,
-            '<span class="blue">[$1 Intercom]: $2</span>'
+            /\[(.*?) интерком\]: (.*)/i,
+            '<span class="blue">[$1 Интерком]: $2</span>'
         );
     }
 
@@ -1380,18 +1380,18 @@ $(document).ready(function() {
     function colorMoneyLine(line) {
         return line
             .replace(
-                /You have received (\$\d+(?:,\d{3})*(?:\.\d{1,3})?)/,
-                '<span class="white">You have received </span><span class="green">$1</span>'
+                /Вы получили (\$\d+(?:,\d{3})*(?:\.\d{1,3})?)/,
+                '<span class="white">Вы получили </span><span class="green">$1</span>'
             )
             .replace(
-                /from (.+) on your bank account\./,
-                '<span class="white">from </span><span class="white">$1</span><span class="white"> on your bank account.</span>'
+                /от (.+) на ваш банковский счет\./,
+                '<span class="white">от </span><span class="white">$1</span><span class="white"> на ваш банковский счет.</span>'
             );
     }
 
     function colorLocationLine(line) {
         return line.replace(
-            /(You received a location from) (#\d+)(. Use )(\/removelocation)( to delete the marker\.)/,
+            /(Вы получили координаты) (#\d+)(. Используйте )(\/removelocation)( чтобы удалить маркер\.)/,
             '<span class="green">$1 </span>' +
             '<span class="yellow">$2</span>' +
             '<span class="green">$3</span>' +
@@ -1455,19 +1455,19 @@ $(document).ready(function() {
     }
 
     function formatDrugEffect(line) {
-        const pattern = /You've just taken (.+?)! You will feel the effects of the drug soon\./;
+        const pattern = /Вы приняли (.+?)! Вы почувствуете эффект уже скоро\./u;
         const match = line.match(pattern);
 
         if (match) {
             const drugName = match[1];
-            return `<span class="white">You've just taken </span><span class="green">${drugName}</span><span class="white">! You will feel the effects of the drug soon.</span>`;
+            return `<span class="white">Вы приняли </span><span class="green">${drugName}</span><span class="white">! Вы почувствуете эффект уже скоро.</span>`;
         }
 
         return line;
     }
 
     function formatPrisonPA(line) {
-        const pattern = /^\*\* \[PRISON PA\].*\*\*$/;
+        const pattern = /^\*\* \[ТЮРЕМНОЕ ОПОВЕЩЕНИЕ\].*\*\*$/;
         if (pattern.test(line)) {
             return `<span class="blue">${line}</span>`;
         }
@@ -1510,7 +1510,7 @@ $(document).ready(function() {
         const moneyMatch = rest.match(/\$\d+/);
         const money = moneyMatch ? moneyMatch[0] : "";
 
-        if (line.includes("offers you a card reader")) {
+        if (line.includes("предложил вам провести карточкой по считывателю")) {
 
             const nameEnd = rest.indexOf(" offers");
             const name = rest.substring(0, nameEnd);
