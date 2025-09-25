@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
  <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="asapdev, blanco" />
-  <meta name="description" content="Chatlog Magician for GTA World made by Blanco with love!" />
+  <meta name="description" content="Chatlog Magician для GTA World (адаптировано на русский язык kelewya с любовью к игрокам!)" />
   <meta name="keywords" content="GTAW, GTAWorld, GTA World, RAGE MP, chatlog magician, chatlog" />
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
   <meta name="msapplication-navbutton-color" content="#000000" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <title>Chatlog Magician</title>
+  <title>Chatlog Magician [RU]</title>
 
   <!-- Preload critical assets -->
   <link rel="preload" href="css/foundation.fixed.css" as="style" />
@@ -68,15 +68,15 @@
            <div class="cell small-12">
               <div class="grid-x grid-margin-x align-middle">
                  <div class="cell small-4 medium-2">
-                    <label for="font-label">Font Size:</label>
+                    <label for="font-label">Размер шрифта:</label>
                     <input name="font-label" id="font-label" type="number" min="1" value="12" aria-label="Font size" />
                  </div>
                  <div class="cell small-4 medium-2">
-                    <label for="lineLengthInput">Line Length:</label>
+                    <label for="lineLengthInput">Размер строки (символов до переноса):</label>
                     <input type="number" id="lineLengthInput" min="1" value="77" aria-label="Line length">
                  </div>
                  <div class="cell small-8 medium-8">
-                    <label for="characterNameInput">Character Name Filter:</label>
+                    <label for="characterNameInput">Фильтр имени персонажа:</label>
                     <div class="input-group" style="position: relative;">
                       <input type="text" id="characterNameInput" placeholder="Enter character name" autocomplete="off" aria-label="Character name filter" />
                       <div class="input-group-button" style="display: flex; gap: 4px;">
@@ -87,18 +87,18 @@
                     </div>
                  </div>
               </div>
-              <label for="chatlogInput">Chat Log:</label>
+              <label for="chatlogInput">Чат-лог:</label>
               <div class="textarea-container">
                  <textarea id="chatlogInput" class="form-control textarea-input" rows="15" placeholder="Enter your chat log here..." aria-label="Chat log input"></textarea>
               </div>
               <div class="grid-x grid-margin-x align-middle">
                  <div class="cell auto">
-                    <button id="downloadOutputTransparent" class="button success" aria-label="Download chat log">Download</button>
-                    <button id="toggleBackground" class="button">Toggle Background</button>
-                    <button id="toggleOutputFont" class="button" aria-label="Toggle output font" title="Switch output font between Default and Trebuchet MS">Font: Default</button>
-                    <button id="toggleCharacterNameColoring" class="button" aria-label="Toggle character name coloring" title="Disable character name detection coloring">Name Colors</button>
+                    <button id="downloadOutputTransparent" class="button success" aria-label="Download chat log">СКАЧАТЬ</button>
+                    <button id="toggleBackground" class="button">Включить/выключить черный фон</button>
+                    <button id="toggleOutputFont" class="button" aria-label="Toggle output font" title="Switch output font between Default and Trebuchet MS">Шрифт: Стандартный</button>
+                    <button id="toggleCharacterNameColoring" class="button" aria-label="Toggle character name coloring" title="Disable character name detection coloring">Окрашивание имен</button>
                     <button id="censorCharButton" class="button secondary censor-char-button" aria-label="Copy censor character" title="Copy ÷ character">÷</button>
-                    <button id="toggleColorPalette" class="button" aria-label="Toggle color palette" title="Click text to color">Color Text</button>
+                    <button id="toggleColorPalette" class="button" aria-label="Toggle color palette" title="Click text to color">Окрашивание текста</button>
                     <div class="button" style="display: inline-flex; align-items: center; padding: 0.5em 1em; height: 38px;">
                      <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="blancodagoat" data-color="#000000" data-emoji="" data-font="Cookie" data-text="Buy me a pizza" data-outline-color="#ffffff" data-font-color="#ffffff" data-coffee-color="#FFDD00" data-size="small"></script>
                    </div>
@@ -138,7 +138,7 @@
           aria-label="Chat history" 
           aria-hidden="true">
        <div class="history-header">
-         <h3>Chatlog History</h3>
+         <h3>История чат-логов</h3>
        </div>
        <div class="history-items" role="list"></div>
      </div>
@@ -146,26 +146,26 @@
      <!-- Color Palette -->
      <div id="colorPalette" class="color-palette" style="display: none;">
          <div class="color-palette-header">
-             Select Color
-             <div class="selection-counter">0 selected</div>
+             Выбрать цвет
+             <div class="selection-counter">0 выбрано</div>
          </div>
          <div class="color-palette-items">
-             <div class="color-item me" data-color="me" data-tooltip="Me/Ame Actions"></div>
-             <div class="color-item ame" data-color="ame" data-tooltip="Me/Ame Actions"></div>
-             <div class="color-item darkgrey" data-color="darkgrey" data-tooltip="Lower Voice"></div>
-             <div class="color-item grey" data-color="grey" data-tooltip="Low Voice"></div>
-             <div class="color-item lightgrey" data-color="lightgrey" data-tooltip="Normal Text"></div>
-             <div class="color-item death" data-color="death" data-tooltip="Death/Failures"></div>
-             <div class="color-item yellow" data-color="yellow" data-tooltip="Important Info"></div>
-             <div class="color-item green" data-color="green" data-tooltip="Success"></div>
-             <div class="color-item orange" data-color="orange" data-tooltip="Warnings"></div>
-             <div class="color-item blue" data-color="blue" data-tooltip="Info"></div>
-             <div class="color-item white" data-color="white" data-tooltip="Normal Text"></div>
-             <div class="color-item radioColor" data-color="radioColor" data-tooltip="Radio (Your Channel)"></div>
-             <div class="color-item radioColor2" data-color="radioColor2" data-tooltip="Radio (Other Channel)"></div>
-             <div class="color-item depColor" data-color="depColor" data-tooltip="Department"></div>
-             <div class="color-item vesseltraffic" data-color="vesseltraffic" data-tooltip="Vessel Traffic"></div>
-             <div class="color-item toyou" data-color="toyou" data-tooltip="Directed at You [!]"></div>
+             <div class="color-item me" data-color="me" data-tooltip="Действия /me и /ame"></div>
+             <div class="color-item ame" data-color="ame" data-tooltip="Действия /me и /ame (2)"></div>
+             <div class="color-item darkgrey" data-color="darkgrey" data-tooltip="Тихий разговор (говорит [тихо] - дальнее расстояние)"></div>
+             <div class="color-item grey" data-color="grey" data-tooltip="Тихий разговор (говорит [тихо] - ближнее расстояние)"></div>
+             <div class="color-item lightgrey" data-color="lightgrey" data-tooltip="Обычный текст"></div>
+             <div class="color-item death" data-color="death" data-tooltip="Смерть/Системные ошибки"></div>
+             <div class="color-item yellow" data-color="yellow" data-tooltip="Важная информация"></div>
+             <div class="color-item green" data-color="green" data-tooltip="Успех"></div>
+             <div class="color-item orange" data-color="orange" data-tooltip="Предупреждения"></div>
+             <div class="color-item blue" data-color="blue" data-tooltip="Инфомаркеры"></div>
+             <div class="color-item white" data-color="white" data-tooltip="Обычный текст"></div>
+             <div class="color-item radioColor" data-color="radioColor" data-tooltip="Рация (Ваш канал)"></div>
+             <div class="color-item radioColor2" data-color="radioColor2" data-tooltip="Рация (Другой канал)"></div>
+             <div class="color-item depColor" data-color="depColor" data-tooltip="Рация департамента"></div>
+             <div class="color-item vesseltraffic" data-color="vesseltraffic" data-tooltip="Рация Vessel Traffic"></div>
+             <div class="color-item toyou" data-color="toyou" data-tooltip="Реплика, направленная к вам - [!]"></div>
          </div>
      </div>
 
@@ -173,7 +173,7 @@
      <div class="changelog-tab" 
           role="button" 
           tabindex="0" 
-          aria-label="Open changelog" 
+          aria-label="Открыть чейнджлог" 
           aria-expanded="false">
        <i class="fas fa-list" aria-hidden="true"></i>
      </div>
@@ -181,7 +181,7 @@
      <div id="changelogPanel" 
           class="changelog-panel" 
           role="dialog" 
-          aria-label="Changelog" 
+          aria-label="Чейнджлог" 
           aria-hidden="true">
        <div class="changelog-header">
          <h3>Latest Updates</h3>
