@@ -193,7 +193,7 @@ function downloadOutputImage() {
       
       if (typeof domtoimage === 'undefined') {
         console.error('domtoimage library not loaded');
-        alert('Image generation library not available. Please refresh the page and try again.');
+        alert('Библиотека генерации изображений недоступна. Пожалуйста, обновите страницу и попробуйте снова.');
         hideLoadingIndicator();
         if (hadColoringMode) output.addClass('coloring-mode');
         return;
@@ -234,23 +234,23 @@ function downloadOutputImage() {
     };
 
     img.onerror = function() {
-      console.error("Error loading generated image");
-      alert("There was an error processing the generated image. Please try again.");
+      console.error("Ошибка при загрузке сгенерированного изображения.");
+      alert("Произошла ошибка при обработке сгенерированного изображения. Пожалуйста, попробуйте снова.");
       hideLoadingIndicator();
       if (hadColoringMode) output.addClass('coloring-mode');
     };
   }
 
   function handleImageGenerationError(error) {
-    console.error("Error generating image:", error);
+    console.error("Ошибка при генерации изображения:", error);
     
     // Provide more specific error messages
-    let errorMessage = "There was an error generating the image. Please try again.";
+    let errorMessage = "Произошла ошибка при генерации изображения. Пожалуйста, попробуйте снова.";
     
     if (error.message && error.message.includes('SecurityError')) {
-      errorMessage = "Unable to access external resources. The image may be generated without some styling.";
+      errorMessage = "Не удалось получить доступ к внешним ресурсам. Изображение может быть сгенерировано без некоторых стилей.";
     } else if (error.message && error.message.includes('cssRules')) {
-      errorMessage = "Some external styles could not be loaded. The image will be generated with available styles.";
+      errorMessage = "Некоторые внешние стили не удалось загрузить. Изображение будет сгенерировано с доступными стилями.";
     }
     
     alert(errorMessage);
@@ -267,7 +267,7 @@ function showLoadingIndicator() {
       <div id="loadingIndicator" class="loading-overlay">
         <div class="loading-dialog">
           <div class="spinner"></div>
-          <p class="loading-text">Generating image...</p>
+          <p class="loading-text">Генерирую изображение...</p>
         </div>
       </div>
     `);
@@ -285,7 +285,7 @@ function showAutoSaveIndicator() {
   $('.auto-save-indicator').remove();
   
   // Create and show new indicator
-  const indicator = $('<div class="auto-save-indicator">Settings saved</div>');
+  const indicator = $('<div class="auto-save-indicator">Настройки сохранены</div>');
   $('body').append(indicator);
   
   // Remove after 2 seconds
@@ -414,12 +414,12 @@ function saveToHistory(text) {
       if (storedHistory) {
         history = JSON.parse(storedHistory);
         if (!Array.isArray(history)) {
-          console.warn('Invalid history format, resetting...');
+          console.warn('Неверный формат истории, загружаю снова...');
           history = [];
         }
       }
     } catch (e) {
-      console.error('Error reading history:', e);
+      console.error('Ошибка при повторной загрузке истории:', e);
       history = [];
     }
 
@@ -440,14 +440,14 @@ function saveToHistory(text) {
         try {
           localStorage.setItem('chatlogHistory', JSON.stringify(history));
         } catch (e2) {
-          console.error('Failed to save history after cleanup:', e2);
+          console.error('Ошибка при сохранении истории после очистки:', e2);
         }
       } else {
-        console.error('Error saving history:', e);
+        console.error('Ошибка сохранения истории:', e);
       }
     }
   } catch (e) {
-    console.error('Error in saveToHistory:', e);
+    console.error('Ошибка в saveToHistory:', e);
   }
 }
 
@@ -456,7 +456,7 @@ function loadHistory() {
     const history = JSON.parse(localStorage.getItem('chatlogHistory') || '[]');
     return Array.isArray(history) ? history : [];
   } catch (e) {
-    console.error('Error loading history:', e);
+    console.error('Ошибка в загрузке истории:', e);
     return [];
   }
 }
@@ -470,7 +470,7 @@ function toggleHistoryPanel() {
 
   const tab = document.querySelector('.history-tab');
   tab.setAttribute('aria-expanded', !isOpen);
-  tab.setAttribute('aria-label', isOpen ? 'Open chat history' : 'Close chat history');
+  tab.setAttribute('aria-label', isOpen ? 'Открыть историю чата' : 'Закрыть историю чата');
 
   // Hide/show the history tab when panel is open/closed
   if (!isOpen) {
@@ -505,7 +505,7 @@ document.addEventListener('click', (e) => {
 });
 
 function clearHistory() {
-  if (confirm('Are you sure you want to clear all chat history?')) {
+  if (confirm('Вы уверены, что хотите очистить историю чат-логов?')) {
     localStorage.removeItem('chatlogHistory');
     refreshHistoryPanel();
   }
@@ -513,8 +513,8 @@ function clearHistory() {
 
 function refreshHistoryPanel() {
   const $historyItems = $('.history-items');
-  const $loading = $('<div class="history-loading">Loading history...</div>');
-  const $empty = $('<div class="history-empty">No history items</div>');
+  const $loading = $('<div class="history-loading">Загрузка истории...</div>');
+  const $empty = $('<div class="history-empty">Здесь пока что пусто.</div>');
 
   $historyItems.empty().append($loading.addClass('active'));
 
@@ -554,7 +554,7 @@ function refreshHistoryPanel() {
   } catch (e) {
     console.error('Error refreshing history panel:', e);
     $loading.removeClass('active');
-    $historyItems.append($('<div class="history-error">Error loading history</div>'));
+    $historyItems.append($('<div class="history-error">Ошибка загрузки истории.</div>'));
   }
 }
 
@@ -576,7 +576,7 @@ function toggleChangelogPanel() {
 
     const tab = document.querySelector('.changelog-tab');
     tab.setAttribute('aria-expanded', !isOpen);
-    tab.setAttribute('aria-label', isOpen ? 'Open changelog' : 'Close changelog');
+    tab.setAttribute('aria-label', isOpen ? 'Oткрыть чейнджлог' : 'Закрыть чейнджлог');
 
     if (!isOpen) {
         const firstItem = panel.querySelector('.changelog-item');
@@ -596,7 +596,7 @@ $(document).ready(function() {
     const dropdown = $('#characterNameDropdown');
     const list = getCharacterList();
     if (list.length === 0) {
-      dropdown.html('<div style="padding: 8px; color: #888;">No characters saved</div>');
+      dropdown.html('<div style="padding: 8px; color: #888;">Нет сохраненных персонажей</div>');
       return;
     }
     dropdown.html(list.map(name =>
@@ -762,7 +762,7 @@ $(document).ready(function() {
   });
 
   $('.history-header').append(
-    $('<button class="clear-history-btn" onclick="clearHistory()" aria-label="Clear all history">Clear All</button>')
+    $('<button class="clear-history-btn" onclick="clearHistory()" aria-label="Clear all history">Очистить все</button>')
   );
 
   // Add click-away functionality for changelog panel
@@ -782,7 +782,7 @@ $(document).ready(function() {
   $('#toggleOutputFont').on('click', function() {
     const $out = $('#output');
     const isTrebuchet = $out.toggleClass('output-font-trebuchet').hasClass('output-font-trebuchet');
-    $(this).text('Font: ' + (isTrebuchet ? 'Trebuchet MS' : 'Default'));
+    $(this).text('Шрифт: ' + (isTrebuchet ? 'Roboto' : 'Стандартный'));
     try {
       localStorage.setItem('outputFontTrebuchet', isTrebuchet ? '1' : '0');
     } catch (e) {}
