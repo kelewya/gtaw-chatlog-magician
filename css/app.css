@@ -34,10 +34,10 @@ body {
 
 /* Use system Trebuchet MS Bold without bundling any font files */
 @font-face {
-    font-family: 'Trebuchet MS';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
-    src: local('Trebuchet MS Bold'), local('TrebuchetMS-Bold');
+    src: local('Roboto'), local('Roboto');
     font-display: swap;
 }
 
