@@ -182,7 +182,7 @@ $(document).ready(function() {
             }
 
             // Skip kick/ban messages
-            if (line.includes("was kicked for:") || line.includes("was banned for:")) {
+            if (line.includes("был кикнут:") || line.includes("был заблокирован:")) {
                 return;
             }
 
@@ -192,7 +192,7 @@ $(document).ready(function() {
             }
 
             // Skip animation stop info
-            if (line.includes("[INFO] If this doesn't work, use .stop or /anim stop.")) {
+            if (line.includes("[ИНФО] Если это не работает, используйте .stop или /anim stop.")) {
                 return;
             }
 
@@ -202,7 +202,7 @@ $(document).ready(function() {
             }
 
             // Skip fixveh warning
-            if (line.includes("((ANY MISUSAGE OF /FIXVEH IS BANNABLE, YOU MAY ONLY USE IT AFTER A BUG THAT LEFT YOU WITHOUT VEHICLES OOCLY.))")) {
+            if (line.includes("((Любое злоупотребление /FIXVEH приведет вас к блокировке, можно использовать только в случае ошибок сервера.))")) {
                 return;
             }
 
@@ -217,7 +217,7 @@ $(document).ready(function() {
             }
 
             // Skip phone locked error
-            if (line.includes("[ERROR] This phone is locked.")) {
+            if (line.includes("[ОШИБКА] Сперва разблокируйте телефон.")) {
                 return;
             }
 
@@ -560,8 +560,8 @@ $(document).ready(function() {
             }
         }
 
-        if (line.startsWith("[INFO]:") && line.includes("[") && line.includes("/")) {
-            const match = line.match(/^(\[INFO\]:)\s*(\[\d{2}\/[A-Z]{3}\/\d{4}\])\s*(.+)$/);
+        if (line.startsWith("[ИНФО]:") && line.includes("[") && line.includes("/")) {
+            const match = line.match(/^(\[ИНФО\]:)\s*(\[\d{2}\/[A-Z]{3}\/\d{4}\])\s*(.+)$/);
             if (match) {
                 const [_, info, date, message] = match;
                 return wrapSpan("blue", info) + " " + wrapSpan("orange", date) + " " + wrapSpan("white", message);
@@ -1148,11 +1148,11 @@ $(document).ready(function() {
     }
 
     function handleWhispers(line) {
-        if (line.startsWith("(Car)")) {
+        if (line.startsWith("(Транспорт)")) {
             return wrapSpan("yellow", line);
         }
 
-        const groupWhisperPattern = /^[A-Z][a-z]+\s[A-Z][a-z]+\swhispers to \d+\speople/i;
+        const groupWhisperPattern = /^[A-Z][a-z]+\s[A-Z][a-z]+\sшепчет \d+\sлюдям/i;
         const match = line.match(groupWhisperPattern);
         if (match) {
             const splitIndex = match.index + match[0].length;
