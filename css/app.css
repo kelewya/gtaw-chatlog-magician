@@ -36,7 +36,7 @@ body {
 @font-face {
     font-family: 'Roboto', sans-serif;
     font-style: light;
-    font-weight: 300;
+    font-weight: 400;
     src: local('Roboto');
     font-display: swap;
 }
@@ -144,7 +144,7 @@ html::-webkit-scrollbar {
 .output-font-trebuchet,
 #output.output-font-trebuchet {
     font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 /* Attention animation for Buy Me a Coffee button */
