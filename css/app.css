@@ -35,9 +35,9 @@ body {
 /* Use system Trebuchet MS Bold without bundling any font files */
 @font-face {
     font-family: 'Roboto', sans-serif;
-    font-style: normal;
+    font-style: light;
     font-weight: 300;
-    src: local('Roboto'), local('Roboto');
+    src: local('Roboto');
     font-display: swap;
 }
 
