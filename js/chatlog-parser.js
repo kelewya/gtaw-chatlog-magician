@@ -561,7 +561,7 @@ $(document).ready(function() {
         }
 
         if (line.startsWith("[ИНФО]:") && line.includes("[") && line.includes("/")) {
-            const match = line.match(/^(\[ИНФО\]:)\s*(\[\d{2}\/[A-Z]{3}\/\d{4}\])\s*(.+)$/);
+            const match = line.match(/^(\[ИНФО\]:)\s*(\[\d{2}\/[A-Z]{3}\/\d{4}\])\s*(.+)$/u);
             if (match) {
                 const [_, info, date, message] = match;
                 return wrapSpan("blue", info) + " " + wrapSpan("orange", date) + " " + wrapSpan("white", message);
@@ -576,19 +576,19 @@ $(document).ready(function() {
             }
         }
 
-        if (line.startsWith("[INTERVIEW]")) {
+        if (line.startsWith("[ИНТЕРВЬЮ]")) {
             return wrapSpan("green", line);
         }
 
-        if (line.startsWith("You have withdrawn")) {
-            const match = line.match(/^You have withdrawn \$\d+(?:,\d{3})*\.?$/);
+        if (line.startsWith("Вы сняли")) {
+            const match = line.match(/^Вы сняли \$\d+(?:,\d{3})*\.?$/u);
             if (match) {
                 return wrapSpan("green", line.endsWith(".") ? line : line + ".");
             }
         }
 
-        if (line.startsWith("You have deposited")) {
-            const match = line.match(/^You have deposited \$\d+(?:,\d{3})*\.?$/);
+        if (line.startsWith("Вы положили")) {
+            const match = line.match(/^Вы положили \$\d+(?:,\d{3})*\.?$/u);
             if (match) {
                 return wrapSpan("green", line.endsWith(".") ? line : line + ".");
             }
@@ -612,7 +612,7 @@ $(document).ready(function() {
                     : wrapSpan("darkgrey", line);
             }
 
-            if (lowerLine.includes("says [low]:")) {
+            if (lowerLine.includes("говорит [тихо]:")) {
                 if (!currentCharacterName || disableCharacterNameColoring) {
                     return wrapSpan("lightgrey", line);
                 }
@@ -621,7 +621,7 @@ $(document).ready(function() {
                     : wrapSpan("grey", line);
             }
 
-            if (lowerLine.includes("says [low] (to")) {
+            if (lowerLine.includes("говорит [тихо] (к")) {
                 if (!currentCharacterName || disableCharacterNameColoring) {
                     return wrapSpan("lightgrey", line);
                 }
