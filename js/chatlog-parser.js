@@ -515,19 +515,19 @@ $(document).ready(function() {
             return weatherFormatted;
         }
 
-        if (line.startsWith("[ALERT] Lockdown activated!")) {
+        if (line.startsWith("[ОПОВЕЩЕНИЕ] Локдаун начался!")) {
             return wrapSpan("blue", line);
         }
 
-        if (line.startsWith("You seized")) {
-            const match = line.match(/^(You seized )(.+?)( from )(.+)$/);
+        if (line.startsWith("Вы изъяли")) {
+            const match = line.match(/^(Вы изъяли )(.+?)( from )(.+)$/u);
             if (match) {
                 const [_, prefix, item, from, name] = match;
                 return wrapSpan("green", line);
             }
         }
 
-        if (/^\*\* \[PRISON PA\].*\*\*$/.test(line)) {
+        if (/^\*\* \[ТЮРЕМНОЕ ОПОВЕЩЕНИЕ\].*\*\*$/.test(line)) {
             return wrapSpan("blue", line);
         }
 
@@ -539,9 +539,9 @@ $(document).ready(function() {
             return wrapSpan("ame", cleanMessage);
         }
 
-        if (line.includes("'s attempt has")) {
-            if (line.includes("succeeded")) {
-                const parts = line.match(/^(\* .+?'s attempt has )(succeeded\. )(\(\()(\d+%)(\)\))$/);
+        if (line.includes("'s попытка успешна")) {
+            if (line.includes("успешна")) {
+                const parts = line.match(/^(\* .+?'s попытка )(успешна\. )(\(\()(\d+%)(\)\))$/u);
                 if (parts) {
                     const [_, prefix, successWithDot, openParen, percent, closeParen] = parts;
                     return wrapSpan("me", prefix) + 
@@ -549,8 +549,8 @@ $(document).ready(function() {
                            wrapSpan("white", openParen + percent + closeParen);
                 }
             }
-            if (line.includes("failed")) {
-                const parts = line.match(/^(\* .+?'s attempt has )(failed\. )(\(\()(\d+%)(\)\))$/);
+            if (line.includes("неудачна")) {
+                const parts = line.match(/^(\* .+?'s попытка )(неудачна\. )(\(\()(\d+%)(\)\))$/u);
                 if (parts) {
                     const [_, prefix, failWithDot, openParen, percent, closeParen] = parts;
                     return wrapSpan("me", prefix) + 
